@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Measurement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ua.nikolenko.WeatherSensorRESTApp</a> &gt; <a href="index.source.html" class="el_package">ua.nikolenko.WeatherSensorRESTApp.models</a> &gt; <span class="el_source">Measurement.java</span></div><h1>Measurement.java</h1><pre class="source lang-java linenums">package ua.nikolenko.WeatherSensorRESTApp.models;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = &quot;measurements&quot;)
+<span class="nc" id="L17">@NoArgsConstructor</span>
+<span class="nc" id="L18">@ToString</span>
+public class Measurement implements Serializable {
+
+<span class="nc" id="L21">    @Getter</span>
+<span class="nc" id="L22">    @Setter</span>
+    @Id
+    @Column(name = &quot;id&quot;)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+<span class="nc" id="L28">    @Getter</span>
+<span class="nc" id="L29">    @Setter</span>
+    @Column(name = &quot;temperature&quot;)
+    @Min(value = -100)
+    @Max(value = 100)
+    @NotNull
+    private Double temperature;
+
+<span class="nc" id="L36">    @Getter</span>
+<span class="nc" id="L37">    @Setter</span>
+    @NotNull
+    @Column(name = &quot;raining&quot;)
+    private Boolean raining;
+
+<span class="nc" id="L42">    @Getter</span>
+<span class="nc" id="L43">    @Setter</span>
+    @NotNull
+    @Column(name = &quot;scanned_in&quot;)
+    private LocalDateTime scannedIn;
+
+<span class="nc" id="L48">    @Getter</span>
+<span class="nc" id="L49">    @Setter</span>
+    @NotNull
+    @ManyToOne()
+    @JoinColumn(name = &quot;scanner_name&quot;, referencedColumnName = &quot;scanner_name&quot;)
+    private Scanner scanner;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

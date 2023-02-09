@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset/create-scanner-table.yaml
+  - include:
+      file: db/changelog/changeset/create-measurements-table.yaml
+  - include:
+      file: db/changelog/changeset/add-foreignKey-measurementsTable.yaml

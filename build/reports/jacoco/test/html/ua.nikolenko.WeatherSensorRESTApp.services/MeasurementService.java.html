@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MeasurementService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ua.nikolenko.WeatherSensorRESTApp</a> &gt; <a href="index.source.html" class="el_package">ua.nikolenko.WeatherSensorRESTApp.services</a> &gt; <span class="el_source">MeasurementService.java</span></div><h1>MeasurementService.java</h1><pre class="source lang-java linenums">package ua.nikolenko.WeatherSensorRESTApp.services;
+
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ua.nikolenko.WeatherSensorRESTApp.models.Measurement;
+import ua.nikolenko.WeatherSensorRESTApp.repositories.MeasurementRepository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+@Transactional(readOnly = true)
+<span class="nc" id="L15">@RequiredArgsConstructor</span>
+public class MeasurementService {
+    private final MeasurementRepository measurementRepository;
+
+    public List&lt;Measurement&gt; findAll() {
+<span class="nc" id="L20">        return measurementRepository.findAll();</span>
+    }
+
+    @Transactional
+    public void addMeasure(Measurement measurement) {
+<span class="nc" id="L25">        enrichMeasure(measurement);</span>
+<span class="nc" id="L26">        measurementRepository.save(measurement);</span>
+<span class="nc" id="L27">    }</span>
+
+
+    void enrichMeasure(Measurement measurement) {
+<span class="nc" id="L31">        measurement.setScannedIn(LocalDateTime.now());</span>
+<span class="nc" id="L32">    }</span>
+
+
+    public Integer findRain() {
+<span class="nc" id="L36">        return measurementRepository.countAllByRainingTrue();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: create measuments
+      author: n1ko)
+      changes:
+        - createTable:
+            tableName: measurements
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: scanner_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: temperature
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: raining
+                  type: tinyint(1)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: scanned_in
+                  type: timestamp
+                  constraints:
+                    nullable: false

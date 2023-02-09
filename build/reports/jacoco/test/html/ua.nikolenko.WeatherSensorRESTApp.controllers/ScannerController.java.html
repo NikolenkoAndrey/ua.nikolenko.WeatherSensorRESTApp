@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ScannerController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ua.nikolenko.WeatherSensorRESTApp</a> &gt; <a href="index.source.html" class="el_package">ua.nikolenko.WeatherSensorRESTApp.controllers</a> &gt; <span class="el_source">ScannerController.java</span></div><h1>ScannerController.java</h1><pre class="source lang-java linenums">package ua.nikolenko.WeatherSensorRESTApp.controllers;
+
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import ua.nikolenko.WeatherSensorRESTApp.dto.ScannerDTO;
+import ua.nikolenko.WeatherSensorRESTApp.models.Scanner;
+import ua.nikolenko.WeatherSensorRESTApp.services.ScannerService;
+import ua.nikolenko.WeatherSensorRESTApp.util.MeasureAddException;
+import ua.nikolenko.WeatherSensorRESTApp.util.MeasureErrorResponse;
+import ua.nikolenko.WeatherSensorRESTApp.util.ScannerValidator;
+import ua.nikolenko.WeatherSensorRESTApp.util.ErrorUtils;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping(&quot;/scanner&quot;)
+<span class="nc" id="L23">@RequiredArgsConstructor</span>
+public class ScannerController {
+
+    private final ScannerValidator scannerValidator;
+    private final ModelMapper modelMapper;
+    private final ScannerService scannerService;
+
+    @RequestMapping()
+    public List&lt;ScannerDTO&gt; showAll() {
+<span class="nc" id="L32">        return scannerService.findAll().stream().map(this::convertToScannerDTO).collect(Collectors.toList());</span>
+    }
+
+
+    @PostMapping(&quot;/add&quot;)
+    public ResponseEntity&lt;HttpStatus&gt; addScanner(@RequestBody @Valid ScannerDTO scannerDTO, BindingResult bindingResult) {
+
+<span class="nc" id="L39">        Scanner scanner = convertToScanner(scannerDTO);</span>
+
+<span class="nc" id="L41">        scannerValidator.validate(scanner, bindingResult);</span>
+
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (bindingResult.hasErrors()) {</span>
+<span class="nc" id="L44">            ErrorUtils.returnErrorsToClient(bindingResult);</span>
+        }
+<span class="nc" id="L46">        scannerService.addNew(scanner);</span>
+<span class="nc" id="L47">        return ResponseEntity.ok(HttpStatus.CREATED);</span>
+    }
+
+    @ExceptionHandler
+    private ResponseEntity&lt;MeasureErrorResponse&gt; handleException(MeasureAddException e) {
+<span class="nc" id="L52">        MeasureErrorResponse errorResponse = new MeasureErrorResponse(</span>
+<span class="nc" id="L53">                e.getMessage(),</span>
+<span class="nc" id="L54">                System.currentTimeMillis()</span>
+        );
+<span class="nc" id="L56">        return new ResponseEntity&lt;&gt;(errorResponse, HttpStatus.BAD_REQUEST);</span>
+    }
+
+    public Scanner convertToScanner(ScannerDTO scannerDTO) {
+<span class="nc" id="L60">        return modelMapper.map(scannerDTO, Scanner.class);</span>
+    }
+
+    public ScannerDTO convertToScannerDTO(Scanner scanner) {
+<span class="nc" id="L64">        return modelMapper.map(scanner, ScannerDTO.class);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

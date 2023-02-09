@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-scanner
+      author: n1ko)
+      changes:
+        - createTable:
+            tableName: scanner
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: scanner_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    foreignKeyName: scanner_name
+              - column:
+                  name: registered_at
+                  type: timestamp
+                  constraints:
+                    nullable: false

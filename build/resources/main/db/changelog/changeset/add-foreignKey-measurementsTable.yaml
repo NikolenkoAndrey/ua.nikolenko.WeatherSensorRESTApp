@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-foreignKey-measureTable
+      author: n1ko)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: scanner_name
+            baseTableName: measurements
+            constraintName: fk_measurements_scanner_name
+            referencedColumnNames: scanner_name
+            referencedTableName: scanner
